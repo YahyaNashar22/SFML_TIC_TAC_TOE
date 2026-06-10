@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="SFML_TIC_TAC_TOE/SFML_TIC_TAC_TOE.vcxproj" />
+</Solution>
