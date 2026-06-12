@@ -15,6 +15,25 @@ void drawCircle(sf::RenderWindow & window)
 	window.draw(circle);
 }
 
+void drawX(sf::RenderWindow & window)
+{
+	sf::RectangleShape line({ 100.f, 10.f });
+	line.setFillColor(sf::Color::Red);
+	line.setRotation(sf::degrees(45));
+	line.setOrigin(line.getSize() / 2.f);
+	line.setPosition({ 400, 300 });
+
+	sf::RectangleShape line2({ 100.f, 10.f });
+	line2.setFillColor(sf::Color::Red);
+	line2.setRotation(sf::degrees(-45));
+	line2.setOrigin(line2.getSize() / 2.f);
+	line2.setPosition({ 400, 300 });
+
+	window.draw(line);
+	window.draw(line2);
+	
+}
+
 int main()
 {
 	sf::ContextSettings settings;
@@ -33,7 +52,7 @@ int main()
 
 		window.clear(sf::Color::Black);
 
-		drawCircle(window);
+		drawX(window);
 
 		window.display();
 	}
