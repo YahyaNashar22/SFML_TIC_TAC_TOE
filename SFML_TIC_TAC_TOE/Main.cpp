@@ -1,7 +1,8 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 
-void drawCircle(sf::RenderWindow & window)
+void drawCircle(sf::RenderWindow& window)
 {
 	float radius = 50.f;
 	float outlineThickness = 5.f;
@@ -15,7 +16,7 @@ void drawCircle(sf::RenderWindow & window)
 	window.draw(circle);
 }
 
-void drawX(sf::RenderWindow & window)
+void drawX(sf::RenderWindow& window)
 {
 	sf::RectangleShape line({ 100.f, 10.f });
 	line.setFillColor(sf::Color::Red);
@@ -31,7 +32,37 @@ void drawX(sf::RenderWindow & window)
 
 	window.draw(line);
 	window.draw(line2);
+
+}
+
+void drawGameGrid(sf::RenderWindow& window)
+{
+	sf::RectangleShape gridLine;
+	gridLine.setFillColor(sf::Color(255, 255, 255, 100));
+
+	// upper lines
+	gridLine.setSize({ 2.f,  static_cast<float>(window.getSize().y) });
+	gridLine.setOrigin(gridLine.getSize() / 2.f);
+
+	// left line
+	gridLine.setPosition({window.getSize().x / 3.f,window.getSize().y / 2.f});
+	window.draw(gridLine);
+
+	// right line
+	gridLine.setPosition({ window.getSize().x * 2.f / 3.f, window.getSize().y / 2.f});
+	window.draw(gridLine);
+
+	// horizontal lines
+	gridLine.setSize({ static_cast<float>(window.getSize().x), 2.f });
+	gridLine.setOrigin(gridLine.getSize() / 2.f);
 	
+	// upper line
+	gridLine.setPosition({ window.getSize().x / 2.f, window.getSize().y / 3.f });
+	window.draw(gridLine);
+
+	// bottom line
+	gridLine.setPosition({ window.getSize().x / 2.f, window.getSize().y * 2 / 3.f });
+	window.draw(gridLine);
 }
 
 int main()
@@ -52,7 +83,7 @@ int main()
 
 		window.clear(sf::Color::Black);
 
-		drawX(window);
+		drawGameGrid(window);
 
 		window.display();
 	}
