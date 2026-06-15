@@ -79,10 +79,67 @@ void insertLetter(char letter, sf::Vector2f position, char(&state)[3][3])
 	int i = position.y / 300;
 	int j = position.x / 300;
 
-	state[i][j] = letter;
+	if (state[i][j] != ' ')
+	{
+		return;
+	}
 
-	std::cout << "position: " << position.x << " " << position.y << "\n";
-	std::cout << "inserted: " << letter << " on: " << i << " " << j << "\n";
+	state[i][j] = letter;
+}
+
+bool checkWinCondition(char(&state)[3][3])
+{
+	// rows
+	if (state[0][0] != ' ' && state[0][0] == state[0][1] && state[0][1] == state[0][2])
+	{
+		return true;
+	}
+	if (state[1][0] != ' ' && state[1][0] == state[1][1] && state[1][1] == state[1][2])
+	{
+		return true;
+	}
+	if (state[2][0] != ' ' && state[2][0] == state[2][1] && state[2][1] == state[2][2])
+	{
+		return true;
+	}
+
+	// columns
+	if (state[0][0] != ' ' && state[0][0] == state[1][0] && state[1][0] == state[2][0])
+	{
+		return true;
+	}
+	if (state[0][1] != ' ' && state[0][1] == state[1][1] && state[1][1] == state[2][1])
+	{
+		return true;
+	}
+	if (state[0][2] != ' ' && state[0][2] == state[1][2] && state[1][2] == state[2][2])
+	{
+		return true;
+	}
+
+	// diagonal
+	if (state[0][0] != ' ' && state[0][0] == state[1][1] && state[1][1] == state[2][2])
+	{
+		return true;
+	}
+	if (state[2][0] != ' ' && state[2][0] == state[1][1] && state[1][1] == state[0][2])
+	{
+		return true;
+	}
+
+	return false;
+}
+
+void restartGame(char(&state)[3][3])
+{
+	for (int row = 0; row < 3; row++)
+	{
+		for (int col = 0; col < 3; col++)
+		{
+			state[row][col] = ' ';
+		}
+	}
+
 }
 
 
@@ -139,6 +196,9 @@ int main()
 				case sf::Keyboard::Key::X:
 					insertLetter('X', cursorPosition, state);
 					break;
+				case sf::Keyboard::Key::R:
+					restartGame(state);
+					break;
 				}
 			}
 		}
@@ -169,6 +229,24 @@ int main()
 		drawX(window, cursorPosition);
 
 		drawCircle(window, cursorPosition);
+
+		if (checkWinCondition(state))
+		{
+			window.clear(sf::Color::Black);
+			sf::Font font;
+			if (!font.openFromFile("./Montesserat.ttf"))
+			{
+				std::cout << "Couldn't open font file\n";
+			}
+			sf::Text text(font);
+			text.setString("Game Won!");
+			text.setCharacterSize(24);
+			text.setFillColor(sf::Color::White);
+			sf::FloatRect bounds = text.getLocalBounds();
+			text.setOrigin({ bounds.position.x + bounds.size.x / 2.f, bounds.position.y + bounds.size.y / 2.f });
+			text.setPosition({ window.getSize().x / 2.f, window.getSize().y / 2.f });
+			window.draw(text);
+		}
 
 		window.display();
 	}
